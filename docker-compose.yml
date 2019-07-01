@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  serverless:
+    build: serverless
+    entrypoint: bash
+    volumes:
+      - ./:/ServerlessSpace
