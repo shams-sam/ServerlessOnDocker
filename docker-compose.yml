@@ -3,5 +3,7 @@ services:
   serverless:
     build: serverless
     entrypoint: bash
+    env_file:
+      - .env
     volumes:
       - ./:/ServerlessSpace
