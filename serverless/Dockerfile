@@ -1,23 +1,19 @@
-FROM softinstigate/serverless
+FROM amazonlinux:1
 
 WORKDIR /
 
-RUN apt-get install -y libreadline-gplv2-dev \
-		libncursesw5-dev \
-		libssl-dev \
-		libsqlite3-dev \
-		tk-dev \
-		libgdbm-dev \
-		libc6-dev \
-		libbz2-dev \
-		tree && \
-	wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz && \
-	tar xvf Python-3.6.8.tgz && \
-	cd Python-3.6.8 && \
-	./configure && \
-	make && \
-	make install
+RUN yum update -y && \
+	yum install -y python36 && \
+	curl -O https://bootstrap.pypa.io/get-pip.py && \
+	python3 get-pip.py && \
+	rm get-pip.py
 
-RUN pip3 install virtualenv
+RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash - && \
+	yum install -y nodejs && \
+	npm install -g serverless
+
+ADD ./requirements.txt /requirements.txt
+
+RUN pip install -r requirements.txt
 
 WORKDIR /ServerlessSpace
